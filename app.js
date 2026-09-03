@@ -2322,13 +2322,13 @@ async function runMatrixGroceryAgent(userRequest) {
         let result;
 
 try {
-    // Agent / ChatGPT WebMCP path
+    // ChatGPT / object-input WebMCP path
     result = await document.modelContext.executeTool(
-        groceryTool.name,
+        groceryTool,
         toolArguments
     );
-} catch (agentError) {
-    // Native Chrome WebMCP path
+} catch (objectError) {
+    // Native Chrome / JSON-string WebMCP path
     result = await document.modelContext.executeTool(
         groceryTool,
         JSON.stringify(toolArguments)
@@ -2578,16 +2578,16 @@ async function runMatrixServiceAgent(userRequest) {
             toolArguments
         );
 
-        let result;
+       let result;
 
 try {
-    // Agent / ChatGPT WebMCP path
+    // ChatGPT / object-input WebMCP path
     result = await document.modelContext.executeTool(
-        serviceTool.name,
+        serviceTool,
         toolArguments
     );
-} catch (agentError) {
-    // Native Chrome WebMCP path
+} catch (objectError) {
+    // Native Chrome / JSON-string WebMCP path
     result = await document.modelContext.executeTool(
         serviceTool,
         JSON.stringify(toolArguments)
