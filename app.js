@@ -1966,10 +1966,22 @@ async function runMatrixFoodAgent(userRequest) {
             toolArguments
         );
 
-        const result = await document.modelContext.executeTool(
-            foodTool,
-            JSON.stringify(toolArguments)
-        );
+        let result;
+
+try {
+    // Agent / ChatGPT WebMCP path
+    result = await document.modelContext.executeTool(
+        foodTool.name,
+        toolArguments
+    );
+} catch (agentError) {
+    // Native Chrome WebMCP path
+    result = await document.modelContext.executeTool(
+        foodTool,
+        JSON.stringify(toolArguments)
+    );
+}
+        ;
 
         foodResults =
             typeof result === "string"
@@ -2307,12 +2319,21 @@ async function runMatrixGroceryAgent(userRequest) {
             toolArguments
         );
 
-        const result =
-            await document.modelContext.executeTool(
-                groceryTool,
-                JSON.stringify(toolArguments)
-            );
+        let result;
 
+try {
+    // Agent / ChatGPT WebMCP path
+    result = await document.modelContext.executeTool(
+        groceryTool.name,
+        toolArguments
+    );
+} catch (agentError) {
+    // Native Chrome WebMCP path
+    result = await document.modelContext.executeTool(
+        groceryTool,
+        JSON.stringify(toolArguments)
+    );
+}
         groceryResults =
             typeof result === "string"
                 ? JSON.parse(result)
@@ -2557,10 +2578,21 @@ async function runMatrixServiceAgent(userRequest) {
             toolArguments
         );
 
-        const result = await document.modelContext.executeTool(
-    serviceTool,
-    JSON.stringify(toolArguments)
-);
+        let result;
+
+try {
+    // Agent / ChatGPT WebMCP path
+    result = await document.modelContext.executeTool(
+        serviceTool.name,
+        toolArguments
+    );
+} catch (agentError) {
+    // Native Chrome WebMCP path
+    result = await document.modelContext.executeTool(
+        serviceTool,
+        JSON.stringify(toolArguments)
+    );
+}
 
 serviceResults =
     typeof result === "string"
