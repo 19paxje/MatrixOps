@@ -3289,26 +3289,98 @@ async function handleNegotiation(choice) {
     await processRequest();
 }
 function runWhatIf() {
+
     const currentRequest = window.matrixRequest || "";
 
-    const newBudget = prompt(
-        "What if you can spend more?\nEnter your new budget (RM):",
-        "80"
-    );
+    const resultsSection =
+        document.getElementById("resultsSection");
 
-    if (!newBudget) return;
+    const resultContainer =
+        document.getElementById("resultsContainer");
 
-    const budget = Number(newBudget);
+    resultContainer.innerHTML = `
+        <div style="
+            padding:28px;
+            border:1px solid #30333d;
+            border-radius:18px;
+            background:#101116;
+        ">
+
+            <h2>🔄 What-If Simulation</h2>
+
+            <p style="color:#9ca3af;">
+                What if you can spend more?
+                Change your budget and MatrixOps will recalculate your decision.
+            </p>
+
+            <label>
+                <strong>New budget (RM)</strong>
+            </label>
+
+            <input
+                id="whatIfBudget"
+                type="number"
+                min="1"
+                value="80"
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    margin-top:8px;
+                    padding:14px;
+                    border-radius:10px;
+                    border:1px solid #444;
+                    background:#181a21;
+                    color:white;
+                "
+            >
+
+            <button
+                type="button"
+                onclick="applyWhatIf()"
+                style="
+                    margin-top:20px;
+                    padding:13px 20px;
+                    border:none;
+                    border-radius:10px;
+                    background:white;
+                    color:black;
+                    font-weight:bold;
+                    cursor:pointer;
+                "
+            >
+                Simulate new budget →
+            </button>
+
+        </div>
+    `;
+
+    resultsSection.scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+
+function applyWhatIf() {
+
+    const currentRequest =
+        window.matrixRequest || "";
+
+    const budgetInput =
+        document.getElementById("whatIfBudget");
+
+    const budget =
+        Number(budgetInput.value);
 
     if (isNaN(budget) || budget <= 0) {
         alert("Please enter a valid budget.");
         return;
     }
 
-    const updatedRequest = currentRequest.replace(
-        /(?:under|below|max(?:imum)?|within)\s*(?:rm|ringgit)?\s*(\d+(?:\.\d+)?)/i,
-        "under RM" + budget.toFixed(2)
-    );
+    const updatedRequest =
+        currentRequest.replace(
+            /(?:under|below|max(?:imum)?|within)\s*(?:rm|ringgit)?\s*(\d+(?:\.\d+)?)/i,
+            "under RM" + budget.toFixed(2)
+        );
 
     document.getElementById("userRequest").value =
         updatedRequest;
@@ -3320,38 +3392,6 @@ function runWhatIf() {
 
     processRequest();
 }
-   let matrixLanguage = "en";
-
-function setLanguage(language) {
-    matrixLanguage = language;
-
-    const findButton = document.querySelector(".find-button");
-    const requestBox = document.getElementById("userRequest");
-    const selectedCategory = document.getElementById("selectedCategory");
-
-    if (language === "en") {
-        findButton.textContent = "Find the best option →";
-        requestBox.placeholder =
-            "Example: Find me a Valentine's dinner under RM70...";
-        selectedCategory.textContent = "No category selected";
-    }
-
-    if (language === "bm") {
-        findButton.textContent = "Cari pilihan terbaik →";
-        requestBox.placeholder =
-            "Contoh: Cari makan malam Valentine's bawah RM70...";
-        selectedCategory.textContent = "Tiada kategori dipilih";
-    }
-
-    if (language === "zh") {
-        findButton.textContent = "寻找最佳选择 →";
-        requestBox.placeholder =
-            "例如：帮我找 RM70 以下的情人节晚餐...";
-        selectedCategory.textContent = "尚未选择类别";
-    }
-
-    console.log("MatrixOps language:", language);
-}
 function runMultiPersonDecision() {
 
     const options = window.matrixOptions || [];
@@ -3361,29 +3401,107 @@ function runMultiPersonDecision() {
         return;
     }
 
-    const person1 = prompt(
-        "Person 1 priorities:\nExample: high protein, low sugar",
-        "high protein"
-    );
+    const resultContainer =
+        document.getElementById("resultsContainer");
 
-    if (!person1) return;
+    resultContainer.innerHTML = `
+        <div style="
+            padding:28px;
+            border:1px solid #30333d;
+            border-radius:18px;
+            background:#101116;
+        ">
+            <h2>👥 Decision for Multiple People</h2>
 
-    const person2 = prompt(
-        "Person 2 priorities:\nExample: vegetarian, cheap",
-        "vegetarian"
-    );
+            <p style="color:#9ca3af;">
+                Tell MatrixOps what matters most to each person.
+            </p>
 
-    if (!person2) return;
+            <label>
+                <strong>Person 1 priorities</strong>
+            </label>
+
+            <input
+                id="person1Priority"
+                type="text"
+                placeholder="Example: high protein, low sugar"
+                value="high protein"
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    margin-top:8px;
+                    margin-bottom:20px;
+                    padding:14px;
+                    border-radius:10px;
+                    border:1px solid #444;
+                    background:#181a21;
+                    color:white;
+                "
+            >
+
+            <label>
+                <strong>Person 2 priorities</strong>
+            </label>
+
+            <input
+                id="person2Priority"
+                type="text"
+                placeholder="Example: vegetarian, cheap"
+                value="vegetarian"
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    margin-top:8px;
+                    padding:14px;
+                    border-radius:10px;
+                    border:1px solid #444;
+                    background:#181a21;
+                    color:white;
+                "
+            >
+
+            <button
+                type="button"
+                onclick="calculateMultiPersonDecision()"
+                style="
+                    margin-top:20px;
+                    padding:13px 20px;
+                    border:none;
+                    border-radius:10px;
+                    background:white;
+                    color:black;
+                    font-weight:bold;
+                    cursor:pointer;
+                "
+            >
+                Find the best compromise →
+            </button>
+        </div>
+    `;
+}
+
+
+function calculateMultiPersonDecision() {
+
+    const options = window.matrixOptions || [];
+
+    const person1 =
+        document.getElementById("person1Priority").value.trim();
+
+    const person2 =
+        document.getElementById("person2Priority").value.trim();
+
+    if (!person1 || !person2) {
+        alert("Please enter priorities for both people.");
+        return;
+    }
 
     function calculateScore(option, priorities) {
 
         const text = priorities.toLowerCase();
         let score = option.rating || 0;
 
-        if (
-            text.includes("protein") &&
-            option.protein >= 30
-        ) {
+        if (text.includes("protein") && option.protein >= 30) {
             score += 5;
         }
 
@@ -3426,10 +3544,16 @@ function runMultiPersonDecision() {
     const scoredOptions = options.map(option => {
 
         const score1 =
-    Math.min(100, calculateScore(option, person1) * 10);
+            Math.min(
+                100,
+                calculateScore(option, person1) * 10
+            );
 
-const score2 =
-    Math.min(100, calculateScore(option, person2) * 10);
+        const score2 =
+            Math.min(
+                100,
+                calculateScore(option, person2) * 10
+            );
 
         return {
             option,
@@ -3447,130 +3571,100 @@ const score2 =
 
     const compromiseReasons = [];
 
-if (winner.option.rating >= 4.5) {
-    compromiseReasons.push(
-        `Strong overall rating (${winner.option.rating}⭐) benefits both people.`
-    );
-}
+    if (winner.option.rating >= 4.5) {
+        compromiseReasons.push(
+            `Strong overall rating (${winner.option.rating}⭐) benefits both people.`
+        );
+    }
 
-if (winner.option.protein >= 30) {
-    compromiseReasons.push(
-        `High protein (${winner.option.protein}g) supports the fitness preference.`
-    );
-}
+    if (winner.option.protein >= 30) {
+        compromiseReasons.push(
+            `High protein (${winner.option.protein}g) supports the fitness preference.`
+        );
+    }
 
-if (winner.option.sugar <= 10) {
-    compromiseReasons.push(
-        `Lower sugar (${winner.option.sugar}g) supports the health preference.`
-    );
-}
+    if (winner.option.sugar <= 10) {
+        compromiseReasons.push(
+            `Lower sugar (${winner.option.sugar}g) supports the health preference.`
+        );
+    }
 
-if (winner.option.vegetarian === true) {
-    compromiseReasons.push(
-        "Vegetarian-friendly, making it suitable for different dietary preferences."
-    );
-}
+    if (winner.option.vegetarian === true) {
+        compromiseReasons.push(
+            "Vegetarian-friendly, making it suitable for different dietary preferences."
+        );
+    }
 
-if (winner.option.price <= 70) {
-    compromiseReasons.push(
-        `Still within the available budget at RM${winner.option.price}.`
-    );
-}
+    if (winner.option.price <= 70) {
+        compromiseReasons.push(
+            `Still within the available budget at RM${winner.option.price}.`
+        );
+    }
 
-if (winner.option.deliveryTime <= 30) {
-    compromiseReasons.push(
-        `Fast delivery (${winner.option.deliveryTime} min) adds convenience for both people.`
-    );
-}
-
-    const resultsSection =
-        document.getElementById("resultsSection");
+    if (winner.option.deliveryTime <= 30) {
+        compromiseReasons.push(
+            `Fast delivery (${winner.option.deliveryTime} min) adds convenience for both people.`
+        );
+    }
 
     const resultContainer =
         document.getElementById("resultsContainer");
 
-    resultsSection.classList.remove("hidden");
-
     resultContainer.innerHTML = `
         <div style="
-            padding:20px;
-            border-radius:12px;
-            background:#171922;
+            padding:28px;
             border:1px solid #30333d;
+            border-radius:18px;
+            background:#101116;
         ">
 
-            <h3>👥 Best compromise for both people</h3>
+            <h2>👥 Best Compromise</h2>
 
-            <h2 style="margin-top:15px;">
-                🏆 ${winner.option.name}
-            </h2>
-
-            <div style="
-                margin-top:15px;
-                padding:14px;
-                border-radius:10px;
-                background:#101116;
-            ">
-
-                <strong>⚖️ MatrixOps decision</strong>
-
-                <p style="margin-top:10px;">
-                   Person 1 fit:
-<strong>${winner.score1.toFixed(0)}/100</strong>
-                </p>
-
-                <p>
-                    Person 2 fit:
-<strong>${winner.score2.toFixed(0)}/100</strong>
-                </p>
-
-                <p>
-                    Overall compromise score:
-<strong>${(winner.totalScore / 2).toFixed(0)}/100</strong>
-                </p>
-
-            </div>
+            <h3 style="margin-top:20px;">
+                🥇 ${winner.option.name}
+            </h3>
 
             <div style="
-                margin-top:16px;
-                padding:14px;
-                border-radius:10px;
-                background:#101116;
+                margin-top:20px;
+                line-height:2;
             ">
+                <div>
+                    👤 Person 1 fit:
+                    <strong>${winner.score1.toFixed(0)}/100</strong>
+                </div>
 
-               <strong>💡 Why this is the best compromise</strong>
+                <div>
+                    👤 Person 2 fit:
+                    <strong>${winner.score2.toFixed(0)}/100</strong>
+                </div>
 
-<div style="
-    margin-top:10px;
-    color:#9ca3af;
-    line-height:1.7;
-">
-    ${compromiseReasons
-        .map(reason => `✅ ${reason}`)
-        .join("<br>")}
-</div>
+                <div>
+                    🤝 Overall compromise:
+                    <strong>${(winner.totalScore / 2).toFixed(0)}/100</strong>
+                </div>
 
-<p style="
-    margin-top:14px;
-    color:#9ca3af;
-    line-height:1.6;
-">
-    MatrixOps chose this option because it achieved
-    the strongest combined fit across both people's
-    priorities, rather than maximizing only one person's preference.
-</p>
-
+                <div style="margin-top:10px;">
+                    💰 RM${winner.option.price}
+                    &nbsp; ⭐ ${winner.option.rating}
+                </div>
             </div>
+
+            <h3 style="margin-top:25px;">
+                Why this compromise?
+            </h3>
+
+            <ul style="line-height:1.8;">
+                ${
+                    compromiseReasons
+                        .map(reason => `<li>${reason}</li>`)
+                        .join("")
+                }
+            </ul>
 
         </div>
     `;
 
-    resultsSection.scrollIntoView({
+    resultContainer.scrollIntoView({
         behavior: "smooth"
     });
-
-    console.log(
-        "MatrixOps multi-person decision:",
-        winner
-    );
 }
