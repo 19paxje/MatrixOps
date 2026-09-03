@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MatrixOps</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">MatrixOps</div>
+
+        <div class="nav-right">
+            <span>Agent Mode</span>
+            <div class="status-dot"></div>
+        </div>
+        <div style="display:flex; gap:6px; margin-left:20px;">
+    <button type="button" onclick="setLanguage('en')">EN</button>
+    <button type="button" onclick="setLanguage('bm')">BM</button>
+    <button type="button" onclick="setLanguage('zh')">中文</button>
+</div>
+    </header>
+
+
+    <main>
+
+        <!-- HERO SECTION -->
+        <section class="hero">
+
+            <div class="hero-badge">
+                AI-Powered Web Assistant
+            </div>
+
+            <h1>
+                Tell us what you need.<br>
+                <span>We'll find the best way to get it done.</span>
+            </h1>
+
+            <p class="hero-description">
+                MatrixOps helps you find, compare and complete
+                everyday food, grocery and service tasks based
+                on your requirements and priorities.
+            </p>
+
+        </section>
+
+
+        <!-- CATEGORY SELECTION -->
+        <section class="categories">
+
+            <h2>What do you need today?</h2>
+
+            <div class="category-grid">
+
+                <button class="category-card" onclick="selectCategory('food')">
+                    <div class="category-icon">🍔</div>
+                    <h3>Food</h3>
+                    <p>Find meals based on taste, nutrition, price and delivery.</p>
+                </button>
+
+
+                <button class="category-card" onclick="selectCategory('grocery')">
+                    <div class="category-icon">🛒</div>
+                    <h3>Groceries</h3>
+                    <p>Compare products, prices, stock and delivery options.</p>
+                </button>
+
+
+                <button class="category-card" onclick="selectCategory('service')">
+                    <div class="category-icon">🔧</div>
+                    <h3>Services</h3>
+                    <p>Find services based on price, location and availability.</p>
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- AI REQUEST BOX -->
+        <section class="request-section">
+
+            <div class="request-card">
+
+                <div class="request-header">
+                    <div>
+                        <h2>What are you looking for?</h2>
+
+                        <p>
+                            Tell MatrixOps naturally. You can type your
+                            requirements and priorities.
+                        </p>
+                    </div>
+
+                    <button class="voice-button" onclick="startVoice()">
+                        🎙️
+                    </button>
+                </div>
+
+
+                <textarea
+                    id="userRequest"
+                    placeholder="Example: Find me a Valentine's dinner for my boyfriend under RM70. He's into fitness and strictly controls his sugar intake..."
+                ></textarea>
+
+<!-- IMAGE UPLOAD -->
+<div class="input-actions">
+
+    <button
+        type="button"
+        class="upload-button"
+        onclick="document.getElementById('imageUpload').click()"
+    >
+        📷 Upload a photo
+    </button>
+
+    <input
+        type="file"
+        id="imageUpload"
+        accept="image/*"
+        style="display:none"
+        onchange="handleImageUpload(event)"
+    >
+
+    <span id="imageStatus"></span>
+
+</div>
+
+<div
+    id="imagePreview"
+    style="display:none; margin-top:15px;"
+>
+</div>
+
+                <div class="request-footer">
+
+                    <span id="selectedCategory">
+                        No category selected
+                    </span>
+
+                    <button
+                        class="find-button"
+                        onclick="processRequest()"
+                    >
+                        Find the best option →
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESULTS -->
+        <section
+            id="resultsSection"
+            class="results-section hidden"
+        >
+
+            <h2>Your Top Matches</h2>
+
+            <p id="resultDescription"></p>
+
+            <div id="resultsContainer"></div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>MatrixOps • Agent-native everyday task execution</p>
+    </footer>
+
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
