@@ -1969,13 +1969,13 @@ async function runMatrixFoodAgent(userRequest) {
         let result;
 
 try {
-    // Agent / ChatGPT WebMCP path
+    // ChatGPT / object-input WebMCP path
     result = await document.modelContext.executeTool(
-        foodTool.name,
+        foodTool,
         toolArguments
     );
-} catch (agentError) {
-    // Native Chrome WebMCP path
+} catch (objectError) {
+    // Native Chrome / JSON-string WebMCP path
     result = await document.modelContext.executeTool(
         foodTool,
         JSON.stringify(toolArguments)
